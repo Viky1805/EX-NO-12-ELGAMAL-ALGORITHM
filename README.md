@@ -24,9 +24,38 @@ To Implement ELGAMAL ALGORITHM
 6. Security: The security of the ElGamal algorithm relies on the difficulty of solving the discrete logarithm problem in a large prime field, making it secure for encryption.
 
 ## Program:
+```
+#include <stdio.h> 
+long long modExp(long long base, long long exp, long long mod) { 
+ long long res = 1; 
+ while (exp > 0) { 
+ if (exp % 2) res = (res * base) % mod; 
+ base = (base * base) % mod; 
+ exp /= 2; 
+ } 
+ return res; 
+} 
+int main() { 
+ long long p, g, privA, pubA, k, msg, c1, c2, dec; 
+ printf("Enter prime p, generator g, private key: "); 
+ scanf("%lld %lld %lld", &p, &g, &privA); 
+ pubA = modExp(g, privA, p); 
+ printf("Public key: %lld\n", pubA); 
+ printf("Enter message and random k: ");
+ scanf("%lld %lld", &msg, &k);
+ c1 = modExp(g, k, p);
+ c2 = (msg * modExp(pubA, k, p)) % p;
+ printf("Encrypted (c1, c2): (%lld, %lld)\n", c1, c2);
+ dec = (c2 * modExp(c1, p - 1 - privA, p)) % p;
+ printf("Decrypted message: %lld\n", dec);
+ return 0;
+}
+```
 
 
 ## Output:
+
+<img width="685" height="318" alt="image" src="https://github.com/user-attachments/assets/1a486abc-64d1-4e6b-b8cd-a7cc5a143908" />
 
 
 ## Result:
